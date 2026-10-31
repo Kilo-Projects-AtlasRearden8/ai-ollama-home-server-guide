@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2. Auto-start on Boot | Ollama Home Server Guide</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrapper">
+    <a class="brand" href="index.html">Ollama Home Server Guide</a>
+    <p class="dek">A beginner-friendly, local-first manual for running Ollama as a headless home server.</p>
+  </div>
+</header>
+
+<nav class="site-nav">
+  <div class="wrapper">
+    <ul>
+            <li><a href="index.html" class="active">Welcome</a></li>
+      <li><a href="install.html">Install</a></li>
+      <li><a href="autostart.html">Auto-start</a></li>
+      <li><a href="access.html">Access</a></li>
+      <li><a href="models.html">Models</a></li>
+      <li><a href="privacy.html">Privacy</a></li>
+      <li><a href="checklist.html">Checklist</a></li>
+    </ul>
+    <p class="nav-credit">Published by <strong>Asdale Dynamics, LLC</strong> &middot; Indiana, formed October 2026</p>
+  </div>
+</nav>
+
+<main class="wrapper">
+  <article class="page">
+    <a class="back" href="index.html">&larr; Back to guide</a>
+    <h1>2. Auto-start on boot</h1>
+    <p>A headless server is only useful if it comes back up by itself after a power outage or reboot. Ollama's installer already creates a system service — we just need to turn it on.</p>
+<h2 id="check-whether-ollama-is-already-enabled">Check whether Ollama is already enabled<a class="headerlink" href="#check-whether-ollama-is-already-enabled" title="Permanent link">&para;</a></h2>
+<pre><code>systemctl is-enabled ollama
+</code></pre>
+<ul>
+<li><code>enabled</code> → Ollama will start on boot. You are done with this step.</li>
+<li><code>disabled</code> → continue below.</li>
+</ul>
+<h2 id="enable-ollama-to-start-automatically">Enable Ollama to start automatically<a class="headerlink" href="#enable-ollama-to-start-automatically" title="Permanent link">&para;</a></h2>
+<pre><code>sudo systemctl enable --now ollama
+</code></pre>
+<ul>
+<li><code>enable</code> starts Ollama on every boot.</li>
+<li><code>--now</code> starts it right away, too.</li>
+</ul>
+<h2 id="confirm-it-is-running">Confirm it is running<a class="headerlink" href="#confirm-it-is-running" title="Permanent link">&para;</a></h2>
+<pre><code>systemctl status ollama
+</code></pre>
+<p>Look for a line like:</p>
+<pre><code>Active: active (running) since ...
+</code></pre>
+<p>Press <code>q</code> to exit the status screen.</p>
+<h2 id="check-that-it-responds">Check that it responds<a class="headerlink" href="#check-that-it-responds" title="Permanent link">&para;</a></h2>
+<pre><code>curl http://127.0.0.1:11434/api/tags
+</code></pre>
+<p>You should see JSON output listing your models (or an empty list if you have not pulled any yet):</p>
+<pre><code>{&quot;models&quot;:[]}
+</code></pre>
+<p>If you get <code>connection refused</code>, Ollama is not running. Start it manually:</p>
+<pre><code>sudo systemctl start ollama
+</code></pre>
+<h2 id="reboot-test-optional-but-recommended">Reboot test (optional but recommended)<a class="headerlink" href="#reboot-test-optional-but-recommended" title="Permanent link">&para;</a></h2>
+<p>Restart the server and check again:</p>
+<pre><code>sudo reboot
+</code></pre>
+<p>After it comes back up, log in again and run:</p>
+<pre><code>systemctl status ollama
+curl http://127.0.0.1:11434/api/tags
+</code></pre>
+<p>If both succeed, Ollama will survive reboots on its own.</p>
+<h2 id="where-ollama-stores-its-data">Where Ollama stores its data<a class="headerlink" href="#where-ollama-stores-its-data" title="Permanent link">&para;</a></h2>
+<p>Because we are using the system service, Ollama keeps models and data under:</p>
+<pre><code>/usr/share/ollama/.ollama
+</code></pre>
+<p>Back this folder up if you ever reinstall the server — it contains every model you have downloaded.</p>
+<h2 id="what-happens-next">What happens next<a class="headerlink" href="#what-happens-next" title="Permanent link">&para;</a></h2>
+<p>Ollama now starts on boot, but it still only listens on the server itself. Next we will open it up to your other home devices: <a href="access.html">3. Access from other devices</a>.</p>
+<hr>
+<p><small>Copyright (c) 2026 Asdale Dynamics, LLC. MIT Licensed. See LICENSE.</small></p>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="wrapper">
+    <p>Published by <strong>Asdale Dynamics, LLC</strong> &mdash; beginner-friendly AI education, books, and practical tools.</p>
+    <p>Copyright (c) 2026 Asdale Dynamics, LLC. MIT Licensed. See LICENSE.</p>
+    <p><a href="https://dylanasdale.github.io">dylanasdale.github.io</a> &middot; <a href="index.html">Read the full guide</a></p>
+  </div>
+</footer>
+</body>
+</html>

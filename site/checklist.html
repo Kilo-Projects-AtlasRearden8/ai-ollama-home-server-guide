@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>6. Printable Setup Checklist | Ollama Home Server Guide</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrapper">
+    <a class="brand" href="index.html">Ollama Home Server Guide</a>
+    <p class="dek">A beginner-friendly, local-first manual for running Ollama as a headless home server.</p>
+  </div>
+</header>
+
+<nav class="site-nav">
+  <div class="wrapper">
+    <ul>
+            <li><a href="index.html" class="active">Welcome</a></li>
+      <li><a href="install.html">Install</a></li>
+      <li><a href="autostart.html">Auto-start</a></li>
+      <li><a href="access.html">Access</a></li>
+      <li><a href="models.html">Models</a></li>
+      <li><a href="privacy.html">Privacy</a></li>
+      <li><a href="checklist.html">Checklist</a></li>
+    </ul>
+    <p class="nav-credit">Published by <strong>Asdale Dynamics, LLC</strong> &middot; Indiana, formed October 2026</p>
+  </div>
+</nav>
+
+<main class="wrapper">
+  <article class="page">
+    <a class="back" href="index.html">&larr; Back to guide</a>
+    <h1>6. Printable setup checklist</h1>
+    <p>Print this page and check off each box as you complete it. Keep it with your server notes.</p>
+<h2 id="ollama-headless-home-server-setup-checklist">Ollama headless home server — setup checklist<a class="headerlink" href="#ollama-headless-home-server-setup-checklist" title="Permanent link">&para;</a></h2>
+<p><strong>Server:</strong> ____________________   <strong>IP address:</strong> ____________________   <strong>Date:</strong> ____________________</p>
+<h3 id="before-you-begin">Before you begin<a class="headerlink" href="#before-you-begin" title="Permanent link">&para;</a></h3>
+<ul>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> 64-bit Linux computer ready (old laptop or desktop is fine)</li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> At least 4 GB RAM (8 GB recommended)</li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> 5–10 GB free disk space</li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> Ethernet or Wi-Fi connected to home router</li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> Another device (phone/laptop/tablet) on the same network</li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> User account with <code>sudo</code> access</li>
+</ul>
+<h3 id="1-install-ollama">1. Install Ollama<a class="headerlink" href="#1-install-ollama" title="Permanent link">&para;</a></h3>
+<ul>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> <code>curl</code> installed</li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> <code>curl -fsSL https://ollama.com/install.sh | sh</code> ran successfully</li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> <code>ollama --version</code> shows a version number</li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> <code>ollama list</code> runs without error</li>
+</ul>
+<h3 id="2-auto-start-on-boot">2. Auto-start on boot<a class="headerlink" href="#2-auto-start-on-boot" title="Permanent link">&para;</a></h3>
+<ul>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> <code>sudo systemctl enable --now ollama</code> ran successfully</li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> <code>systemctl status ollama</code> shows <code>active (running)</code></li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> <code>curl http://127.0.0.1:11434/api/tags</code> returns JSON</li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> (Optional) Reboot test passed — Ollama is running after restart</li>
+</ul>
+<h3 id="3-access-from-other-devices">3. Access from other devices<a class="headerlink" href="#3-access-from-other-devices" title="Permanent link">&para;</a></h3>
+<ul>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> Server IP address recorded (<code>hostname -I</code>)</li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> <code>OLLAMA_HOST=0.0.0.0:11434</code> override created</li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> <code>sudo systemctl daemon-reload</code> and <code>restart ollama</code> completed</li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> Firewall rule added (<code>sudo ufw allow 11434/tcp</code>) — if you use <code>ufw</code></li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> Browser on another device reaches <code>http://&lt;SERVER-IP&gt;:11434</code></li>
+</ul>
+<h3 id="4-pull-and-run-models">4. Pull and run models<a class="headerlink" href="#4-pull-and-run-models" title="Permanent link">&para;</a></h3>
+<ul>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> First model pulled (for example <code>ollama pull llama3.2:3b</code>)</li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> <code>ollama list</code> shows the model</li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> Chatted with the model using <code>ollama run</code></li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> (Optional) Tested <code>curl http://&lt;SERVER-IP&gt;:11434/api/generate</code> from another device</li>
+</ul>
+<h3 id="5-keep-chats-private">5. Keep chats private<a class="headerlink" href="#5-keep-chats-private" title="Permanent link">&para;</a></h3>
+<ul>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> Port 11434 is NOT forwarded on the router</li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> Ollama is not exposed to the public internet</li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> Remote access (if needed) goes through a private VPN such as Tailscale</li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> Model folder backed up: <code>/usr/share/ollama/.ollama/models</code></li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> No API keys or accounts created — chats stay local</li>
+</ul>
+<h3 id="done">Done?<a class="headerlink" href="#done" title="Permanent link">&para;</a></h3>
+<ul>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> All checkboxes complete — your Ollama home server is ready</li>
+</ul>
+<h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
+<hr />
+<hr />
+<hr />
+<p>Models downloaded: ________________________________________________________</p>
+<hr>
+<p><small>Copyright (c) 2026 Asdale Dynamics, LLC. MIT Licensed. See LICENSE.</small></p>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="wrapper">
+    <p>Published by <strong>Asdale Dynamics, LLC</strong> &mdash; beginner-friendly AI education, books, and practical tools.</p>
+    <p>Copyright (c) 2026 Asdale Dynamics, LLC. MIT Licensed. See LICENSE.</p>
+    <p><a href="https://dylanasdale.github.io">dylanasdale.github.io</a> &middot; <a href="index.html">Read the full guide</a></p>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1. Install Ollama | Ollama Home Server Guide</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrapper">
+    <a class="brand" href="index.html">Ollama Home Server Guide</a>
+    <p class="dek">A beginner-friendly, local-first manual for running Ollama as a headless home server.</p>
+  </div>
+</header>
+
+<nav class="site-nav">
+  <div class="wrapper">
+    <ul>
+            <li><a href="index.html" class="active">Welcome</a></li>
+      <li><a href="install.html">Install</a></li>
+      <li><a href="autostart.html">Auto-start</a></li>
+      <li><a href="access.html">Access</a></li>
+      <li><a href="models.html">Models</a></li>
+      <li><a href="privacy.html">Privacy</a></li>
+      <li><a href="checklist.html">Checklist</a></li>
+    </ul>
+    <p class="nav-credit">Published by <strong>Asdale Dynamics, LLC</strong> &middot; Indiana, formed October 2026</p>
+  </div>
+</nav>
+
+<main class="wrapper">
+  <article class="page">
+    <a class="back" href="index.html">&larr; Back to guide</a>
+    <h1>1. Install Ollama</h1>
+    <p>Install Ollama on your Linux home server. This step takes about 10 minutes, most of it waiting for the download to finish.</p>
+<h2 id="what-you-need-before-you-start">What you need before you start<a class="headerlink" href="#what-you-need-before-you-start" title="Permanent link">&para;</a></h2>
+<ul>
+<li>A 64-bit Linux computer (Ubuntu, Debian, Linux Mint, Raspberry Pi OS, etc.)</li>
+<li>A user account with <code>sudo</code> privileges (the account you log in with)</li>
+<li>An internet connection for the initial download</li>
+<li>About 2 GB of free disk space for the Ollama program itself (models are separate)</li>
+</ul>
+<h2 id="step-1-open-a-terminal">Step 1: Open a terminal<a class="headerlink" href="#step-1-open-a-terminal" title="Permanent link">&para;</a></h2>
+<p>If your server has a monitor and keyboard, open the terminal application. If it is headless (no screen), log in over SSH from another device:</p>
+<pre><code>ssh your-username@your-server-ip
+</code></pre>
+<h2 id="step-2-install-ollama">Step 2: Install Ollama<a class="headerlink" href="#step-2-install-ollama" title="Permanent link">&para;</a></h2>
+<p>Run the official Ollama install script:</p>
+<pre><code>curl -fsSL https://ollama.com/install.sh | sh
+</code></pre>
+<p>What this does: downloads the Ollama program, creates an <code>ollama</code> system user, and sets Ollama up to start automatically when the computer boots.</p>
+<p>When it finishes, you should see a message like:</p>
+<pre><code>ollama installed successfully
+</code></pre>
+<h2 id="step-3-verify-the-installation">Step 3: Verify the installation<a class="headerlink" href="#step-3-verify-the-installation" title="Permanent link">&para;</a></h2>
+<p>Check the version:</p>
+<pre><code>ollama --version
+</code></pre>
+<p>You should see something like:</p>
+<pre><code>ollama version is 0.5.x
+</code></pre>
+<p>List installed models (there won't be any yet):</p>
+<pre><code>ollama list
+</code></pre>
+<p>Expected output:</p>
+<pre><code>NAME    SIZE    MODIFIED
+</code></pre>
+<p>An empty list is normal — we will download a model in Step 4 of this guide (<a href="models.html">Pull and run models</a>).</p>
+<h2 id="step-4-quick-smoke-test">Step 4: Quick smoke test<a class="headerlink" href="#step-4-quick-smoke-test" title="Permanent link">&para;</a></h2>
+<p>Start a tiny model right away to confirm Ollama works:</p>
+<pre><code>ollama run phi4-mini
+</code></pre>
+<p>Wait for the download, then type a message like <code>Hi, are you working?</code> and press Enter. You should get a reply. Type <code>/bye</code> and press Enter to exit.</p>
+<p>If you do not want to download a model yet, skip this — it is just a sanity check.</p>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>curl: command not found</code></td>
+<td>Install curl first: <code>sudo apt update &amp;&amp; sudo apt install curl -y</code></td>
+</tr>
+<tr>
+<td><code>permission denied</code></td>
+<td>Make sure your user can use <code>sudo</code>. Ask the person who set up the computer.</td>
+</tr>
+<tr>
+<td><code>command not found: ollama</code> after install</td>
+<td>Close and reopen your terminal, or run <code>source /etc/profile.d/ollama.sh</code> if it exists.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-happens-next">What happens next<a class="headerlink" href="#what-happens-next" title="Permanent link">&para;</a></h2>
+<p>Ollama is now installed, but by default it only listens on the server itself (localhost). In the next step we will make sure it starts automatically on boot: <a href="autostart.html">2. Auto-start on boot</a>.</p>
+<hr>
+<p><small>Copyright (c) 2026 Asdale Dynamics, LLC. MIT Licensed. See LICENSE.</small></p>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="wrapper">
+    <p>Published by <strong>Asdale Dynamics, LLC</strong> &mdash; beginner-friendly AI education, books, and practical tools.</p>
+    <p>Copyright (c) 2026 Asdale Dynamics, LLC. MIT Licensed. See LICENSE.</p>
+    <p><a href="https://dylanasdale.github.io">dylanasdale.github.io</a> &middot; <a href="index.html">Read the full guide</a></p>
+  </div>
+</footer>
+</body>
+</html>

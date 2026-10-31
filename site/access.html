@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3. Access from Other Devices | Ollama Home Server Guide</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrapper">
+    <a class="brand" href="index.html">Ollama Home Server Guide</a>
+    <p class="dek">A beginner-friendly, local-first manual for running Ollama as a headless home server.</p>
+  </div>
+</header>
+
+<nav class="site-nav">
+  <div class="wrapper">
+    <ul>
+            <li><a href="index.html" class="active">Welcome</a></li>
+      <li><a href="install.html">Install</a></li>
+      <li><a href="autostart.html">Auto-start</a></li>
+      <li><a href="access.html">Access</a></li>
+      <li><a href="models.html">Models</a></li>
+      <li><a href="privacy.html">Privacy</a></li>
+      <li><a href="checklist.html">Checklist</a></li>
+    </ul>
+    <p class="nav-credit">Published by <strong>Asdale Dynamics, LLC</strong> &middot; Indiana, formed October 2026</p>
+  </div>
+</nav>
+
+<main class="wrapper">
+  <article class="page">
+    <a class="back" href="index.html">&larr; Back to guide</a>
+    <h1>3. Access from other devices</h1>
+    <p>By default, Ollama only listens on the server itself (<code>127.0.0.1</code>, also called localhost). That is the safest setting, but it means your phone and laptop cannot reach it yet. In this step we will let other devices on your home Wi-Fi talk to Ollama.</p>
+<h2 id="step-1-find-your-servers-ip-address">Step 1: Find your server's IP address<a class="headerlink" href="#step-1-find-your-servers-ip-address" title="Permanent link">&para;</a></h2>
+<p>On the server, run:</p>
+<pre><code>hostname -I
+</code></pre>
+<p>You will see something like:</p>
+<pre><code>192.168.1.42
+</code></pre>
+<p>That is your server's address on your home network. Write it down — you will use it in place of <code>&lt;SERVER-IP&gt;</code> below.</p>
+<p>If you see multiple addresses, pick the one that looks like <code>192.168.x.x</code> or <code>10.x.x.x</code>.</p>
+<h2 id="step-2-tell-ollama-to-listen-on-all-network-addresses">Step 2: Tell Ollama to listen on all network addresses<a class="headerlink" href="#step-2-tell-ollama-to-listen-on-all-network-addresses" title="Permanent link">&para;</a></h2>
+<p>Create a configuration override so Ollama binds to <code>0.0.0.0</code> (every network address) instead of localhost only:</p>
+<pre><code>sudo mkdir -p /etc/systemd/system/ollama.service.d
+sudo tee /etc/systemd/system/ollama.service.d/override.conf &gt; /dev/null &lt;&lt;'EOF'
+[Service]
+Environment=&quot;OLLAMA_HOST=0.0.0.0:11434&quot;
+EOF
+</code></pre>
+<p>Reload systemd and restart Ollama:</p>
+<pre><code>sudo systemctl daemon-reload
+sudo systemctl restart ollama
+</code></pre>
+<p>Confirm it is still running:</p>
+<pre><code>systemctl status ollama
+</code></pre>
+<h2 id="step-3-open-the-firewall-if-you-have-one">Step 3: Open the firewall (if you have one)<a class="headerlink" href="#step-3-open-the-firewall-if-you-have-one" title="Permanent link">&para;</a></h2>
+<p>Many Linux distributions ship with a firewall called <code>ufw</code>. Check whether it is active:</p>
+<pre><code>sudo ufw status
+</code></pre>
+<p>If it says <code>Status: active</code>, allow port 11434 on your home network:</p>
+<pre><code>sudo ufw allow 11434/tcp
+</code></pre>
+<p>If <code>ufw</code> is not installed or inactive, your router's built-in firewall already protects you — as long as you do not set up port forwarding (see the warning below).</p>
+<h2 id="step-4-test-from-another-device">Step 4: Test from another device<a class="headerlink" href="#step-4-test-from-another-device" title="Permanent link">&para;</a></h2>
+<p>On your phone, laptop, or tablet connected to the same Wi-Fi, open a browser and visit:</p>
+<pre><code>http://&lt;SERVER-IP&gt;:11434
+</code></pre>
+<p>Replace <code>&lt;SERVER-IP&gt;</code> with the address from Step 1, for example:</p>
+<pre><code>http://192.168.1.42:11434
+</code></pre>
+<p>You should see a plain text message saying Ollama is running. That page confirms the server is reachable — the actual chatting happens in the next step (<a href="models.html">Pull and run models</a>).</p>
+<p>You can also test with <code>curl</code> from another device:</p>
+<pre><code>curl http://&lt;SERVER-IP&gt;:11434/api/tags
+</code></pre>
+<h2 id="important-privacy-warning">Important privacy warning<a class="headerlink" href="#important-privacy-warning" title="Permanent link">&para;</a></h2>
+<p><strong>Do not forward port 11434 on your router, and do not expose Ollama directly to the internet.</strong> Ollama has no built-in password or login. Anyone who can reach port 11434 can run models and read your chats.</p>
+<ul>
+<li><strong>At home on your Wi-Fi:</strong> safe, as long as you trust the people on your network.</li>
+<li><strong>Away from home:</strong> use a private VPN (such as Tailscale) to reach your server, or wait until you are back on your home network.</li>
+</ul>
+<h2 id="what-happens-next">What happens next<a class="headerlink" href="#what-happens-next" title="Permanent link">&para;</a></h2>
+<p>Now that your devices can reach Ollama, let's download a model and start chatting: <a href="models.html">4. Pull and run models</a>.</p>
+<hr>
+<p><small>Copyright (c) 2026 Asdale Dynamics, LLC. MIT Licensed. See LICENSE.</small></p>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="wrapper">
+    <p>Published by <strong>Asdale Dynamics, LLC</strong> &mdash; beginner-friendly AI education, books, and practical tools.</p>
+    <p>Copyright (c) 2026 Asdale Dynamics, LLC. MIT Licensed. See LICENSE.</p>
+    <p><a href="https://dylanasdale.github.io">dylanasdale.github.io</a> &middot; <a href="index.html">Read the full guide</a></p>
+  </div>
+</footer>
+</body>
+</html>

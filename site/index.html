@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Welcome — Ollama Home Server Guide | Ollama Home Server Guide</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrapper">
+    <a class="brand" href="index.html">Ollama Home Server Guide</a>
+    <p class="dek">A beginner-friendly, local-first manual for running Ollama as a headless home server.</p>
+  </div>
+</header>
+
+<nav class="site-nav">
+  <div class="wrapper">
+    <ul>
+            <li><a href="index.html" class="active">Welcome</a></li>
+      <li><a href="install.html">Install</a></li>
+      <li><a href="autostart.html">Auto-start</a></li>
+      <li><a href="access.html">Access</a></li>
+      <li><a href="models.html">Models</a></li>
+      <li><a href="privacy.html">Privacy</a></li>
+      <li><a href="checklist.html">Checklist</a></li>
+    </ul>
+    <p class="nav-credit">Published by <strong>Asdale Dynamics, LLC</strong> &middot; Indiana, formed October 2026</p>
+  </div>
+</nav>
+
+<main class="wrapper">
+  <article class="page">
+    <a class="back" href="index.html">&larr; Back to guide</a>
+    <h1>Welcome to the Ollama Home Server Guide</h1>
+    <p><strong>A beginner-friendly, step-by-step manual for running Ollama as a headless home server — no API key, no cloud account, everything local.</strong></p>
+<p>Written for Dylan Asdale and published by <strong>Asdale Dynamics, LLC</strong> (Indiana, formed October 2026). Asdale Dynamics makes beginner-friendly AI education, books, and practical tools. This guide accompanies <em>The Massive AI Manual</em> and the hub site dylanasdale.github.io.</p>
+<h2 id="what-is-ollama">What is Ollama?<a class="headerlink" href="#what-is-ollama" title="Permanent link">&para;</a></h2>
+<p>Ollama is a free, open-source program that lets you run large language models (AI models) on your own hardware. When you chat with Ollama, the model runs on <strong>your</strong> computer — not on someone else's server. Nothing you type is sent to Ollama, Inc., and you never need an API key.</p>
+<h2 id="what-is-a-headless-home-server">What is a "headless home server"?<a class="headerlink" href="#what-is-a-headless-home-server" title="Permanent link">&para;</a></h2>
+<p>A headless server is just a computer that runs without a monitor, keyboard, or mouse attached. You set it up once, tuck it away (an old laptop or desktop works great), and access it from your other devices over your home Wi-Fi.</p>
+<h2 id="what-this-guide-covers">What this guide covers<a class="headerlink" href="#what-this-guide-covers" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Topic</th>
+<th>What you'll do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="install.html">Install Ollama</a></td>
+<td>Install Ollama on a Linux home server</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="autostart.html">Auto-start on boot</a></td>
+<td>Make Ollama start automatically whenever the server turns on</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="access.html">Access from other devices</a></td>
+<td>Reach Ollama from your phone, laptop, or tablet on the same Wi-Fi</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="models.html">Pull and run models</a></td>
+<td>Download your first AI model and start chatting</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="privacy.html">Keep chats private</a></td>
+<td>Lock down your server so your data never leaves your home</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="checklist.html">Printable setup checklist</a></td>
+<td>A one-page checklist to print and check off as you go</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-youll-need">What you'll need<a class="headerlink" href="#what-youll-need" title="Permanent link">&para;</a></h2>
+<ul>
+<li>A 64-bit computer running Linux (Ubuntu, Debian, Mint, or similar) — an old laptop or desktop is perfect</li>
+<li>At least 4 GB of RAM (8 GB or more recommended)</li>
+<li>About 5–10 GB of free disk space for your first model</li>
+<li>An Ethernet cable or Wi-Fi connection to your home router</li>
+<li>Another device (phone, laptop, tablet) on the same network to test with</li>
+</ul>
+<p>No graphics card is required. Ollama runs fine on ordinary processors; a GPU just makes it faster.</p>
+<h2 id="who-this-is-for">Who this is for<a class="headerlink" href="#who-this-is-for" title="Permanent link">&para;</a></h2>
+<p>You do not need to be a programmer. If you can copy and paste commands into a terminal, you can follow this guide. Every step is written in plain English, with no jargon without an explanation.</p>
+<h2 id="a-note-on-privacy-and-safety">A note on privacy and safety<a class="headerlink" href="#a-note-on-privacy-and-safety" title="Permanent link">&para;</a></h2>
+<p>This guide is <strong>local-first</strong>: every model, every chat, and every setting stays on your hardware unless you explicitly choose to share it. Ollama has no built-in password, so we will keep the server on your home network and <strong>not</strong> expose it to the public internet.</p>
+<p><em>Educational use only.</em> Dylan Asdale is a registered nurse, but this guide and anything from Asdale Dynamics is not medical advice. If you are using AI for health-related questions, please consult a qualified clinician.</p>
+<hr />
+<p><strong>Next step:</strong> <a href="install.html">1. Install Ollama</a></p>
+<hr>
+<p><small>Copyright (c) 2026 Asdale Dynamics, LLC. MIT Licensed. See LICENSE.</small></p>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="wrapper">
+    <p>Published by <strong>Asdale Dynamics, LLC</strong> &mdash; beginner-friendly AI education, books, and practical tools.</p>
+    <p>Copyright (c) 2026 Asdale Dynamics, LLC. MIT Licensed. See LICENSE.</p>
+    <p><a href="https://dylanasdale.github.io">dylanasdale.github.io</a> &middot; <a href="index.html">Read the full guide</a></p>
+  </div>
+</footer>
+</body>
+</html>

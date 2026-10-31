@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5. Keep Chats Private | Ollama Home Server Guide</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrapper">
+    <a class="brand" href="index.html">Ollama Home Server Guide</a>
+    <p class="dek">A beginner-friendly, local-first manual for running Ollama as a headless home server.</p>
+  </div>
+</header>
+
+<nav class="site-nav">
+  <div class="wrapper">
+    <ul>
+            <li><a href="index.html" class="active">Welcome</a></li>
+      <li><a href="install.html">Install</a></li>
+      <li><a href="autostart.html">Auto-start</a></li>
+      <li><a href="access.html">Access</a></li>
+      <li><a href="models.html">Models</a></li>
+      <li><a href="privacy.html">Privacy</a></li>
+      <li><a href="checklist.html">Checklist</a></li>
+    </ul>
+    <p class="nav-credit">Published by <strong>Asdale Dynamics, LLC</strong> &middot; Indiana, formed October 2026</p>
+  </div>
+</nav>
+
+<main class="wrapper">
+  <article class="page">
+    <a class="back" href="index.html">&larr; Back to guide</a>
+    <h1>5. Keep chats private</h1>
+    <p>Ollama is private by design: models run on your hardware, and your prompts never leave your server unless you deliberately send them elsewhere. This section is a checklist to keep it that way.</p>
+<h2 id="what-stays-local">What stays local<a class="headerlink" href="#what-stays-local" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Every model you download (<code>ollama pull</code>) is stored on your server</li>
+<li>Every chat you have is processed on your server</li>
+<li>No account, no login, and no API key are required</li>
+<li>Ollama, Inc. does not see your conversations when you run Ollama yourself</li>
+</ul>
+<h2 id="verify-ollama-is-not-reaching-out">Verify Ollama is not reaching out<a class="headerlink" href="#verify-ollama-is-not-reaching-out" title="Permanent link">&para;</a></h2>
+<p>Confirm Ollama is listening only where you expect:</p>
+<pre><code>curl http://127.0.0.1:11434/api/tags
+</code></pre>
+<p>If you followed Step 3, it also answers on your server's LAN IP. That is fine inside your home. Do <strong>not</strong> open port 11434 on your router, and do not use a cloud "tunnel" service to expose Ollama to the internet.</p>
+<h2 id="option-a-maximum-privacy-localhost-only">Option A: Maximum privacy — localhost only<a class="headerlink" href="#option-a-maximum-privacy-localhost-only" title="Permanent link">&para;</a></h2>
+<p>If only this server needs to use Ollama, leave it on localhost (the default). No other device can reach it, and no network traffic leaves the machine at all.</p>
+<p>To undo Step 2's network change:</p>
+<pre><code>sudo rm /etc/systemd/system/ollama.service.d/override.conf
+sudo systemctl daemon-reload
+sudo systemctl restart ollama
+</code></pre>
+<h2 id="option-b-home-network-trust-your-wi-fi">Option B: Home network — trust your Wi-Fi<a class="headerlink" href="#option-b-home-network-trust-your-wi-fi" title="Permanent link">&para;</a></h2>
+<p>Binding to <code>0.0.0.0:11434</code> (Step 3) lets phones and laptops on your Wi-Fi use Ollama. This is safe if:</p>
+<ul>
+<li>You trust everyone on your home network</li>
+<li>Your router does not have port 11434 forwarded to the internet</li>
+<li>You do not connect unknown devices (guest Wi-Fi, strangers) to your main network</li>
+</ul>
+<h2 id="option-c-away-from-home-use-a-private-vpn">Option C: Away from home — use a private VPN<a class="headerlink" href="#option-c-away-from-home-use-a-private-vpn" title="Permanent link">&para;</a></h2>
+<p>If you want to reach your home server while traveling, do not punch a hole in your router. Instead:</p>
+<ul>
+<li>Install <strong>Tailscale</strong> or another mesh VPN on the server and your devices</li>
+<li>Access Ollama over the VPN's private IP address</li>
+<li>Your traffic stays encrypted and never touches the public internet</li>
+</ul>
+<h2 id="disable-telemetry-optional">Disable telemetry (optional)<a class="headerlink" href="#disable-telemetry-optional" title="Permanent link">&para;</a></h2>
+<p>Ollama sends minimal telemetry by default. To turn it off, add this to the same override file from Step 3:</p>
+<pre><code>Environment=&quot;OLLAMA_HOST=0.0.0.0:11434&quot;
+Environment=&quot;OLLAMA_DISABLE_TELEMETRY=1&quot;
+</code></pre>
+<p>Then:</p>
+<pre><code>sudo systemctl daemon-reload
+sudo systemctl restart ollama
+</code></pre>
+<h2 id="back-up-your-models">Back up your models<a class="headerlink" href="#back-up-your-models" title="Permanent link">&para;</a></h2>
+<p>Your models live here:</p>
+<pre><code>/usr/share/ollama/.ollama/models
+</code></pre>
+<p>Copy this folder to an external drive or another computer if you want to keep your models after reinstalling the server. Chats (conversation history) are not stored by Ollama between sessions — once you exit a chat, it is gone from the server unless your frontend saves it.</p>
+<h2 id="what-ollama-is-not">What Ollama is not<a class="headerlink" href="#what-ollama-is-not" title="Permanent link">&para;</a></h2>
+<p>Ollama is a tool for running models locally. It does not filter, diagnose, or advise on health matters. This guide is educational only — see the disclaimer in <a href="index.html">Welcome</a>.</p>
+<h2 id="what-happens-next">What happens next<a class="headerlink" href="#what-happens-next" title="Permanent link">&para;</a></h2>
+<p>You have a private, local-first AI server. Print the <a href="checklist.html">setup checklist</a> and walk through each step one more time to confirm everything is in place.</p>
+<hr>
+<p><small>Copyright (c) 2026 Asdale Dynamics, LLC. MIT Licensed. See LICENSE.</small></p>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="wrapper">
+    <p>Published by <strong>Asdale Dynamics, LLC</strong> &mdash; beginner-friendly AI education, books, and practical tools.</p>
+    <p>Copyright (c) 2026 Asdale Dynamics, LLC. MIT Licensed. See LICENSE.</p>
+    <p><a href="https://dylanasdale.github.io">dylanasdale.github.io</a> &middot; <a href="index.html">Read the full guide</a></p>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4. Pull and Run Models | Ollama Home Server Guide</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrapper">
+    <a class="brand" href="index.html">Ollama Home Server Guide</a>
+    <p class="dek">A beginner-friendly, local-first manual for running Ollama as a headless home server.</p>
+  </div>
+</header>
+
+<nav class="site-nav">
+  <div class="wrapper">
+    <ul>
+            <li><a href="index.html" class="active">Welcome</a></li>
+      <li><a href="install.html">Install</a></li>
+      <li><a href="autostart.html">Auto-start</a></li>
+      <li><a href="access.html">Access</a></li>
+      <li><a href="models.html">Models</a></li>
+      <li><a href="privacy.html">Privacy</a></li>
+      <li><a href="checklist.html">Checklist</a></li>
+    </ul>
+    <p class="nav-credit">Published by <strong>Asdale Dynamics, LLC</strong> &middot; Indiana, formed October 2026</p>
+  </div>
+</nav>
+
+<main class="wrapper">
+  <article class="page">
+    <a class="back" href="index.html">&larr; Back to guide</a>
+    <h1>4. Pull and run models</h1>
+    <p>A model is the AI itself — a file you download once, then run as often as you like. Models live on your server. Nothing goes to Ollama, Inc., and no API key is ever needed.</p>
+<h2 id="pick-your-first-model">Pick your first model<a class="headerlink" href="#pick-your-first-model" title="Permanent link">&para;</a></h2>
+<p>For a first model, choose something small so it runs well on modest hardware:</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Size</th>
+<th>Good for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>llama3.2:1b</code></td>
+<td>~1.3 GB</td>
+<td>Quick questions, short answers, very low RAM</td>
+</tr>
+<tr>
+<td><code>llama3.2:3b</code></td>
+<td>~2.0 GB</td>
+<td>General chatting, best first choice if you have 8 GB+ RAM</td>
+</tr>
+<tr>
+<td><code>phi4-mini</code></td>
+<td>~2.3 GB</td>
+<td>Strong reasoning in a small package</td>
+</tr>
+<tr>
+<td><code>qwen2.5:1.5b</code></td>
+<td>~0.9 GB</td>
+<td>Fast, lightweight, multilingual</td>
+</tr>
+<tr>
+<td><code>gemma3:1b</code></td>
+<td>~0.8 GB</td>
+<td>Tiny, efficient, simple tasks</td>
+</tr>
+</tbody>
+</table>
+<p>Rule of thumb: a model needs about 1 GB of RAM for every 1 billion parameters ("1b" = 1 billion). <code>llama3.2:3b</code> needs roughly 3–4 GB of free RAM.</p>
+<h2 id="pull-download-a-model">Pull (download) a model<a class="headerlink" href="#pull-download-a-model" title="Permanent link">&para;</a></h2>
+<p>On the server, run:</p>
+<pre><code>ollama pull llama3.2:3b
+</code></pre>
+<p>Watch the progress bars. When it finishes, the model is stored locally under <code>/usr/share/ollama/.ollama/models</code>.</p>
+<p>List your models:</p>
+<pre><code>ollama list
+</code></pre>
+<p>You will see something like:</p>
+<pre><code>NAME             SIZE    MODIFIED
+llama3.2:3b      2.0 GB  ...
+</code></pre>
+<h2 id="run-a-model-and-chat">Run a model and chat<a class="headerlink" href="#run-a-model-and-chat" title="Permanent link">&para;</a></h2>
+<p>Start the model in your terminal:</p>
+<pre><code>ollama run llama3.2:3b
+</code></pre>
+<p>Type a message and press Enter:</p>
+<pre><code>Hi, what can you help me with?
+</code></pre>
+<p>The model will reply. Keep typing to continue the conversation. When you are done, type:</p>
+<pre><code>/bye
+</code></pre>
+<p>Other handy commands while running a model:</p>
+<ul>
+<li><code>/?</code> — show help</li>
+<li><code>/set</code> — change model settings</li>
+<li><code>/bye</code> — exit</li>
+</ul>
+<h2 id="chat-from-another-device-over-the-network">Chat from another device (over the network)<a class="headerlink" href="#chat-from-another-device-over-the-network" title="Permanent link">&para;</a></h2>
+<p>Once you have finished Step 3 (<a href="access.html">Access from other devices</a>), you can chat from your phone or laptop using <code>curl</code>:</p>
+<pre><code>curl http://&lt;SERVER-IP&gt;:11434/api/generate -d '{
+  &quot;model&quot;: &quot;llama3.2:3b&quot;,
+  &quot;prompt&quot;: &quot;Write a one-sentence bedtime story.&quot;,
+  &quot;stream&quot;: false
+}'
+</code></pre>
+<p>Replace <code>&lt;SERVER-IP&gt;</code> with your server's address. You will get a JSON reply containing the model's answer.</p>
+<h2 id="remove-a-model-you-no-longer-need">Remove a model you no longer need<a class="headerlink" href="#remove-a-model-you-no-longer-need" title="Permanent link">&para;</a></h2>
+<p>Models take up space. To delete one:</p>
+<pre><code>ollama rm llama3.2:3b
+</code></pre>
+<h2 id="tips-for-beginners">Tips for beginners<a class="headerlink" href="#tips-for-beginners" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Start small. You can always pull a bigger model later.</li>
+<li>The first <code>ollama run</code> of a new model automatically downloads it — you do not need a separate <code>pull</code> step.</li>
+<li>If a model is slow or won't start, your server may be low on RAM. Try a smaller model (look for <code>:1b</code> variants).</li>
+<li>Model files are yours to keep, copy, or back up. They live in <code>/usr/share/ollama/.ollama/models</code>.</li>
+</ul>
+<h2 id="what-happens-next">What happens next<a class="headerlink" href="#what-happens-next" title="Permanent link">&para;</a></h2>
+<p>Your server is installed, starts on boot, is reachable from your devices, and can run models. The last step is making sure your chats stay private: <a href="privacy.html">5. Keep chats private</a>.</p>
+<hr>
+<p><small>Copyright (c) 2026 Asdale Dynamics, LLC. MIT Licensed. See LICENSE.</small></p>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="wrapper">
+    <p>Published by <strong>Asdale Dynamics, LLC</strong> &mdash; beginner-friendly AI education, books, and practical tools.</p>
+    <p>Copyright (c) 2026 Asdale Dynamics, LLC. MIT Licensed. See LICENSE.</p>
+    <p><a href="https://dylanasdale.github.io">dylanasdale.github.io</a> &middot; <a href="index.html">Read the full guide</a></p>
+  </div>
+</footer>
+</body>
+</html>
